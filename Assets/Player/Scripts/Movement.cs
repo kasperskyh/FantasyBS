@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     private Animator anim;
     private Vector3 targetScale;
     private bool isGrounded;
+    private bool doubleJump;
 
     void Start()
     {
@@ -38,11 +39,18 @@ public class Movement : MonoBehaviour
 
         anim.SetBool("isRunning", move != 0);
 
+       if (isGrounded && !Input.GetButton("Jump"))
+       {
+            doubleJump = false;
+       }
+
        if (Input.GetButtonDown("Jump"))
        {
-        if (isGrounded == true)
+        if (isGrounded || doubleJump )
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+
+            doubleJump = !doubleJump;
         }
        }
 
