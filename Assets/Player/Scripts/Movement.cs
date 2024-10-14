@@ -33,15 +33,23 @@ public class Movement : MonoBehaviour
             targetScale = new Vector3(-4, 4, 4);
         }
 
-        // P³ynna zmiana skali
+        // Pï¿½ynna zmiana skali
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * 50);
 
         anim.SetBool("isRunning", move != 0);
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
+       if (Input.GetButtonDown("Jump"))
+       {
+        if (isGrounded == true)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+       }
+
+       if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+       {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+       }
 
         if (Input.GetButtonDown("Fire1"))
         {
