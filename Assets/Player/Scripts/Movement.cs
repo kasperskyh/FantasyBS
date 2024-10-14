@@ -6,11 +6,18 @@ public class Movement : MonoBehaviour
 {
     [SerializeField] private int speed = 10;
     [SerializeField] private float jumpForce = 10;
-    private Rigidbody2D rb;
+    [SerializeField] private TrailRenderer tr;    
+    [SerializeField] private Rigidbody2D rb;
     private Animator anim;
     private Vector3 targetScale;
     private bool isGrounded;
     private bool doubleJump;
+
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingForce = 3f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
 
     void Start()
     {
@@ -24,7 +31,7 @@ public class Movement : MonoBehaviour
     {
         float move = Input.GetAxis("Horizontal");
         transform.position += new Vector3(move, 0, 0) * Time.deltaTime * speed;
-
+        
         if (move > 0)
         {
             targetScale = new Vector3(4, 4, 4);
@@ -63,6 +70,11 @@ public class Movement : MonoBehaviour
         {
             anim.SetTrigger("Attack");
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -79,5 +91,21 @@ public class Movement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash =false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * dashingForce, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }
