@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    private float dashingForce = 3f;
+    [SerializeField] private float dashingForce = 3f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
@@ -71,9 +71,10 @@ public class Movement : MonoBehaviour
             anim.SetTrigger("Attack");
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1))&& canDash)
         {
             StartCoroutine(Dash());
+            anim.SetTrigger("Dash");
         }
     }
 
