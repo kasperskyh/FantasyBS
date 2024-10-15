@@ -41,7 +41,6 @@ public class Movement : MonoBehaviour
             targetScale = new Vector3(-4, 4, 4);
         }
 
-        // P�ynna zmiana skali
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * 50);
 
         anim.SetBool("isRunning", move != 0);
@@ -66,10 +65,6 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
        }
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            anim.SetTrigger("Attack");
-        }
 
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1))&& canDash)
         {
