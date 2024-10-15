@@ -8,6 +8,8 @@ public class PlayerCombat : MonoBehaviour
     public Transform attackPoint;
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
+    [SerializeField] private int damage = 10;
+
 
     void Start()
     {
@@ -19,17 +21,24 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            anim.SetTrigger("Attack");
             AttackHit();
         }
     }
 
-    void AttackHit()
+    public void AttackHit()
     {
-        anim.SetTrigger("Attack");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("We hit " + enemy.name);
+            enemy.GetComponent<Enemy>().takeDamage(damage);
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

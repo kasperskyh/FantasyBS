@@ -12,11 +12,6 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     void takeDamage(int damage)
     {
