@@ -7,11 +7,11 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float sightRange = 5f;
-    [SerializeField] private float stopDuration = 0.5f; // Czas zatrzymania po zderzeniu
+    [SerializeField] private float stopDuration = 0.5f; 
     Animator anim;
 
-    private bool hasSeenPlayer = false; // Flaga œledz¹ca, czy wróg zobaczy³ gracza
-    private bool isStopped = false; // Flaga œledz¹ca, czy wróg jest zatrzymany
+    private bool hasSeenPlayer = false; 
+    private bool isStopped = false; 
 
     void Start()
     {
@@ -26,28 +26,23 @@ public class EnemyMovement : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
 
-            // SprawdŸ, czy gracz jest w zasiêgu widzenia, jeœli wróg jeszcze go nie zobaczy³
             if (!hasSeenPlayer && distanceToPlayer <= sightRange)
             {
-                hasSeenPlayer = true; // Ustaw flagê, gdy wróg zobaczy gracza
+                hasSeenPlayer = true; 
             }
 
-            // Jeœli wróg zobaczy³ gracza, pod¹¿aj za nim
             if (hasSeenPlayer)
             {
                 Vector3 direction = new Vector3(playerPosition.x - transform.position.x, 0, 0).normalized;
                 transform.position += direction * speed * Time.deltaTime;
                 anim.SetBool("isRunning", true);
 
-                // Obróæ wroga w kierunku gracza
                 if (playerPosition.x < transform.position.x)
                 {
-                    // Gracz jest po lewej stronie, obróæ w lewo
                     transform.localScale = new Vector3(-4, 4, 4);
                 }
                 else
                 {
-                    // Gracz jest po prawej stronie, obróæ w prawo
                     transform.localScale = new Vector3(4, 4, 4);
                 }
             }
