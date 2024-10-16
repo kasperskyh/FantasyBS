@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
         {
-            Die();
+            animator.SetBool("isDead", true);
         }
     }
 
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         Destroy(gameObject);
     }
