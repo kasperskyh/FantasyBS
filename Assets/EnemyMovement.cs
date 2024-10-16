@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float sightRange = 5f;
-    [SerializeField] private float stopDuration = 1f; // Czas zatrzymania po zderzeniu
+    [SerializeField] private float stopDuration = 0.5f; // Czas zatrzymania po zderzeniu
     Animator anim;
 
     private bool hasSeenPlayer = false; // Flaga œledz¹ca, czy wróg zobaczy³ gracza
@@ -66,6 +66,7 @@ public class EnemyMovement : MonoBehaviour
     {
         isStopped = true;
         anim.SetBool("isRunning", false);
+        anim.SetTrigger("Attack");
         yield return new WaitForSeconds(stopDuration);
         isStopped = false;
     }
