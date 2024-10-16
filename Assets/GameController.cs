@@ -28,6 +28,13 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Obstacle"))
+        {
+            isTakingDamage = false;
+        }
+    }
 
     private IEnumerator TakeDamageOverTime(Collider2D collision)
     {
