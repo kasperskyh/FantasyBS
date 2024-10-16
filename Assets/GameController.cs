@@ -11,8 +11,8 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         startPos = transform.position;
-        health = GetComponent<Health>();   
-        
+        health = GetComponent<Health>();  
+
     }
 
    private void OnTriggerEnter2D(Collider2D collision)
