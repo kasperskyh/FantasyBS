@@ -6,14 +6,14 @@ public class Health : MonoBehaviour
 
 {
     [SerializeField]private int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
     void Start()
     {
         currentHealth = maxHealth;
     }
 
 
-    void takeDamage(int damage)
+    public void takeDamage(int damage)
     {
         currentHealth -= damage;
         if (currentHealth <= 0)
