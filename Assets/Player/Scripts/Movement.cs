@@ -81,6 +81,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
