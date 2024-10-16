@@ -6,21 +6,37 @@ public class GameController : MonoBehaviour
 {
     Vector2 startPos;
     private Health health;
+    private bool isTakingDamage = false;
 
     // Start is called before the first frame update
     private void Start()
     {
         startPos = transform.position;
-        health = GetComponent<Health>();  
-
+        health = GetComponent<Health>();
     }
 
-   private void OnTriggerEnter2D(Collider2D collision)
-   {
-    if(collision.CompareTag("Obstacle"))
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Obstacle"))
+        {
             health.takeDamage(5);
             Debug.Log(health.currentHealth);
+            if (!isTakingDamage)
+            {
+                StartCoroutine(TakeDamageOverTime(collision));
+            }
+        }
     }
-   }
+
+
+    private IEnumerator TakeDamageOverTime(Collider2D collision)
+    {
+        isTakingDamage = true;
+        while (isTakingDamage)
+        {
+            health.takeDamage(5);
+            Debug.Log(health.currentHealth);
+            yield return new WaitForSeconds(1f); // Zadawaj obra¿enia co sekundê
+        }
+    }
 }
