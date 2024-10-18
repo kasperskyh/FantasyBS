@@ -9,20 +9,23 @@ public class PlayerCombat : MonoBehaviour
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
     [SerializeField] private int damage = 10;
-
+    [SerializeField] private float attackCooldown = 0.25f; // Czas cooldownu ataku
+    private float lastAttackTime;
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        lastAttackTime = -attackCooldown; // Ustawienie, aby gracz móg³ zaatakowaæ od razu
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && Time.time >= lastAttackTime + attackCooldown)
         {
             anim.SetTrigger("Attack");
             AttackHit();
+            lastAttackTime = Time.time;
         }
     }
 
