@@ -1142,6 +1142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  iFrameDuration: 2
+  iFrameDeltaTime: 1
+  flashCount: 0
 --- !u!96 &931502430
 TrailRenderer:
   serializedVersion: 3
