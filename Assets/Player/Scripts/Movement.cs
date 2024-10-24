@@ -6,18 +6,22 @@ public class Movement : MonoBehaviour
 {
     [SerializeField] private int speed = 10;
     [SerializeField] private float jumpForce = 10;
-    [SerializeField] private TrailRenderer tr;    
+    [SerializeField] private TrailRenderer tr;
     [SerializeField] private Rigidbody2D rb;
     private Animator anim;
     private Vector3 targetScale;
     private bool isGrounded;
     private bool doubleJump;
+    private bool isOnWall;
 
     private bool canDash = true;
     private bool isDashing;
     [SerializeField] private float dashingForce = 3f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
+
+    [SerializeField] private float wallJumpForce = 0.2f;
+    [SerializeField] private Vector2 wallJumpDirection = new Vector2(1, 1);
 
     void Start()
     {
@@ -31,7 +35,7 @@ public class Movement : MonoBehaviour
     {
         float move = Input.GetAxis("Horizontal");
         transform.position += new Vector3(move, 0, 0) * Time.deltaTime * speed;
-        
+
         if (move > 0)
         {
             targetScale = new Vector3(4, 4, 4);
@@ -45,31 +49,38 @@ public class Movement : MonoBehaviour
 
         anim.SetBool("isRunning", move != 0);
 
-       if (isGrounded && !Input.GetButton("Jump"))
-       {
-            doubleJump = false;
-       }
-
-       if (Input.GetButtonDown("Jump"))
-       {
-        if (isGrounded || doubleJump )
+        if (isGrounded && !Input.GetButton("Jump"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-
-            doubleJump = !doubleJump;
+            doubleJump = false;
         }
-       }
 
-       if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-       {
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded || doubleJump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                doubleJump = !doubleJump;
+            }
+            else if (isOnWall)
+            {
+                WallJump();
+            }
+        }
+
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-       }
+        }
 
-
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1))&& canDash)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1)) && canDash)
         {
             StartCoroutine(Dash());
             anim.SetTrigger("Dash");
+        }
+
+        if (isOnWall && !isGrounded)
+        {
+            WallRun();
         }
     }
 
@@ -79,6 +90,11 @@ public class Movement : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            isOnWall = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -87,11 +103,29 @@ public class Movement : MonoBehaviour
         {
             isGrounded = false;
         }
+
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            isOnWall = false;
+        }
+    }
+
+    private void WallJump()
+    {
+        Vector2 jumpDirection = new Vector2(wallJumpDirection.x * -transform.localScale.x, wallJumpDirection.y);
+        rb.velocity = new Vector2(jumpDirection.x * wallJumpForce, jumpDirection.y * wallJumpForce);
+        isOnWall = false;
+    }
+
+    private void WallRun()
+    {
+        float move = Input.GetAxis("Vertical");
+        rb.velocity = new Vector2(rb.velocity.x, move * speed);
     }
 
     private IEnumerator Dash()
     {
-        canDash =false;
+        canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
