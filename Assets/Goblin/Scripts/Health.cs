@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -16,19 +17,22 @@ public class Health : MonoBehaviour
     [SerializeField]private int flashCount;
     //private SpriteRenderer spriteRend;
     private bool isInvincible = false;
+
     void Start()
     {
         currentHealth = maxHealth;
         iFrameDuration = 2;
         iFrameDeltaTime = 1;
         animator = GetComponent<Animator>();
+        
         //spriteRend = GetComponent<SpriteRenderer>();
     }
 
 
     public void takeDamage(double damage)
     {
-        if (isInvincible) return;
+        Movement dash = GetComponent<Movement>();
+        if (isInvincible || dash.isDashing) return;
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
