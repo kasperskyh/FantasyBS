@@ -15,17 +15,13 @@ public class Movement : MonoBehaviour
     private bool isOnWall;
 
     private bool canDash = true;
-    public bool isDashing;
+    private bool isDashing;
     [SerializeField] private float dashingForce = 3f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
     [SerializeField] private float wallJumpForce = 0.2f;
     [SerializeField] private Vector2 wallJumpDirection = new Vector2(1, 1);
-
-    [SerializeField] private float wallRunSpeed = 5f;
-    [SerializeField] private float wallRunDuration = 2f;
-    private bool isWallRunning = false;
 
     void Start()
     {
@@ -82,9 +78,9 @@ public class Movement : MonoBehaviour
             anim.SetTrigger("Dash");
         }
 
-        if (isOnWall && !isGrounded && !isWallRunning)
+        if (isOnWall && !isGrounded)
         {
-            StartCoroutine(WallRun());
+            WallRun();
         }
     }
 
@@ -121,15 +117,10 @@ public class Movement : MonoBehaviour
         isOnWall = false;
     }
 
-    private IEnumerator WallRun()
+    private void WallRun()
     {
-        isWallRunning = true;
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        rb.velocity = new Vector2(rb.velocity.x, wallRunSpeed);
-        yield return new WaitForSeconds(wallRunDuration);
-        rb.gravityScale = originalGravity;
-        isWallRunning = false;
+        float move = Input.GetAxis("Vertical");
+        rb.velocity = new Vector2(rb.velocity.x, move * speed);
     }
 
     private IEnumerator Dash()
