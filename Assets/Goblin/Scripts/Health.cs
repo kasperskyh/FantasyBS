@@ -16,6 +16,10 @@ public class Health : MonoBehaviour
     private SpriteRenderer spriteRend;
     private bool isInvincible = false;
 
+    [Header("Dash Settings")]
+    [SerializeField] private float dashInvincibilityDuration = 1f; // Czas nieœmiertelnoœci po dashu
+    private bool isDashing = false;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -27,7 +31,8 @@ public class Health : MonoBehaviour
 
     public void takeDamage(double damage)
     {
-        if (isInvincible) return;
+        if (isInvincible) return; // Zignoruj obra¿enia, jeœli postaæ jest nieœmiertelna
+
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
@@ -37,13 +42,14 @@ public class Health : MonoBehaviour
         StartCoroutine(Invulnerability());
     }
 
-    void heal(int healAmount)
+    public void Heal(int healAmount)
     {
         currentHealth += healAmount;
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
+        Debug.Log("Player healed! Current health: " + currentHealth);
     }
 
     public void Die()
@@ -69,5 +75,35 @@ public class Health : MonoBehaviour
 
         Debug.Log("Player is no longer invincible!");
         isInvincible = false;
+    }
+
+    public void Dash()
+    {
+        if (isDashing) return;
+
+        StartCoroutine(PerformDash());
+    }
+
+    private IEnumerator PerformDash()
+    {
+        Debug.Log("Dash started!");
+        isDashing = true;
+        isInvincible = true; // W³¹cz nieœmiertelnoœæ na czas dasha
+
+        // Symulacja czasu trwania dasha (1 sekunda)
+        yield return new WaitForSeconds(dashInvincibilityDuration);
+
+        Debug.Log("Dash ended, invincibility turned off!");
+        isInvincible = false; // Wy³¹cz nieœmiertelnoœæ po dashu
+        isDashing = false;
+    }
+
+    private void Update()
+    {
+        // Obs³uga wciœniêcia klawisza dash
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Dash();
+        }
     }
 }
