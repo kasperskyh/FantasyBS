@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour
-
 {
-    [Header ("Health")]
-    [SerializeField]private double maxHealth = 100;
+    [Header("Health")]
+    [SerializeField] private double maxHealth = 100;
     public double currentHealth;
     Animator animator;
 
-    [Header ("iframes")]
-    [SerializeField]private float iFrameDuration;
-    [SerializeField]private float iFrameDeltaTime;
-    [SerializeField]private int flashCount;
-    //private SpriteRenderer spriteRend;
+    [Header("iframes")]
+    [SerializeField] private float iFrameDuration;
+    [SerializeField] private float iFrameDeltaTime;
+    [SerializeField] private int flashCount;
+    private SpriteRenderer spriteRend;
     private bool isInvincible = false;
+
     void Start()
     {
         currentHealth = maxHealth;
-        iFrameDuration = 2;
-        iFrameDeltaTime = 1;
+        iFrameDuration = 2f;
+        iFrameDeltaTime = 0.2f; // Czas przerwy miêdzy migniêciami
         animator = GetComponent<Animator>();
-        //spriteRend = GetComponent<SpriteRenderer>();
+        spriteRend = GetComponent<SpriteRenderer>();
     }
-
 
     public void takeDamage(double damage)
     {
@@ -51,18 +50,24 @@ public class Health : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    
+
     private IEnumerator Invulnerability()
     {
-    Debug.Log("Player turned invincible!");
-    isInvincible = true;
+        Debug.Log("Player turned invincible!");
+        isInvincible = true;
 
-    for (float i = 0; i < iFrameDuration; i += iFrameDeltaTime)
-    {
-        yield return new WaitForSeconds(iFrameDeltaTime);
-    }
+        for (int i = 0; i < flashCount; i++)
+        {
+            // Wy³¹cz sprite, aby postaæ zniknê³a
+            spriteRend.enabled = false;
+            yield return new WaitForSeconds(iFrameDeltaTime / 2);
 
-    Debug.Log("Player is no longer invincible!");
-    isInvincible = false;
+            // W³¹cz sprite, aby postaæ siê pojawi³a
+            spriteRend.enabled = true;
+            yield return new WaitForSeconds(iFrameDeltaTime / 2);
+        }
+
+        Debug.Log("Player is no longer invincible!");
+        isInvincible = false;
     }
 }
