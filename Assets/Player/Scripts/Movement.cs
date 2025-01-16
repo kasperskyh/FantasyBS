@@ -28,6 +28,17 @@ public class Movement : MonoBehaviour
         anim = GetComponent<Animator>();
         targetScale = transform.localScale; // Inicjalizacja docelowej skali
         rb = GetComponent<Rigidbody2D>();
+
+        GameObject[] invisibleWalls = GameObject.FindGameObjectsWithTag("InvisibleWall");
+
+        // Zignoruj kolizjê gracza z niewidzialnymi œcianami
+        foreach (GameObject wall in invisibleWalls)
+        {
+            Collider2D wallCollider = wall.GetComponent<Collider2D>();
+            Collider2D playerCollider = GetComponent<Collider2D>(); // Zak³adaj¹c, ¿e gracz ma Collider2D
+
+            Physics2D.IgnoreCollision(playerCollider, wallCollider);
+        }
     }
 
     // Update is called once per frame
