@@ -48,6 +48,7 @@ public class Movement : MonoBehaviour
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * 50);
 
         anim.SetBool("isRunning", move != 0);
+        anim.SetBool("isJumping", !isGrounded);
 
         if (isGrounded && !Input.GetButton("Jump"))
         {
@@ -88,6 +89,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            anim.SetBool("isJumping", true);
             isGrounded = true;
         }
 
@@ -138,4 +140,5 @@ public class Movement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
 }
