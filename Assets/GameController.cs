@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
         isTakingDamage = true;
         while (isTakingDamage)
         {
-            health.takeDamage(5);
+            health.takeDamage(35);
             Debug.Log(health.currentHealth);
             yield return new WaitForSeconds(1f); // Zadawaj obra�enia co sekund�
         }
