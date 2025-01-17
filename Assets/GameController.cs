@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     {
         if (collision.CompareTag("Obstacle"))
         {
-            health.takeDamage(5);
+            health.takeDamage(35);
             Debug.Log(health.currentHealth);
             if (!isTakingDamage)
             {
@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
         {
             health.takeDamage(5);
             Debug.Log(health.currentHealth);
-            yield return new WaitForSeconds(1f); // Zadawaj obra¿enia co sekundê
+            yield return new WaitForSeconds(1f); // Zadawaj obraï¿½enia co sekundï¿½
         }
     }
 }
