@@ -63,6 +63,7 @@ public class Health : MonoBehaviour
     {
         transform.position=startPos;
         currentHealth=100;
+        animator.SetBool("isDead", false);
     }
 
     private IEnumerator Invulnerability()
