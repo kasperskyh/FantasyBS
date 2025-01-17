@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] private double maxHealth = 100;
     public double currentHealth;
     Animator animator;
+    Vector2 startPos;
 
     [Header("iframes")]
     [SerializeField] private float iFrameDuration;
@@ -17,21 +18,22 @@ public class Health : MonoBehaviour
     private bool isInvincible = false;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashInvincibilityDuration = 1f; // Czas nieœmiertelnoœci po dashu
+    [SerializeField] private float dashInvincibilityDuration = 1f; // Czas nieï¿½miertelnoï¿½ci po dashu
     private bool isDashing = false;
 
     void Start()
     {
+        startPos = transform.position;
         currentHealth = maxHealth;
         iFrameDuration = 2f;
-        iFrameDeltaTime = 0.2f; // Czas przerwy miêdzy migniêciami
+        iFrameDeltaTime = 0.2f; // Czas przerwy miï¿½dzy migniï¿½ciami
         animator = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
     }
 
     public void takeDamage(double damage)
     {
-        if (isInvincible) return; // Zignoruj obra¿enia, jeœli postaæ jest nieœmiertelna
+        if (isInvincible) return; // Zignoruj obraï¿½enia, jeï¿½li postaï¿½ jest nieï¿½miertelna
 
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
@@ -54,7 +56,7 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
+        transform.position=startPos;
     }
 
     private IEnumerator Invulnerability()
@@ -64,11 +66,11 @@ public class Health : MonoBehaviour
 
         for (int i = 0; i < flashCount; i++)
         {
-            // Wy³¹cz sprite, aby postaæ zniknê³a
+            // Wyï¿½ï¿½cz sprite, aby postaï¿½ zniknï¿½a
             spriteRend.enabled = false;
             yield return new WaitForSeconds(iFrameDeltaTime / 2);
 
-            // W³¹cz sprite, aby postaæ siê pojawi³a
+            // Wï¿½ï¿½cz sprite, aby postaï¿½ siï¿½ pojawiï¿½a
             spriteRend.enabled = true;
             yield return new WaitForSeconds(iFrameDeltaTime / 2);
         }
@@ -88,19 +90,19 @@ public class Health : MonoBehaviour
     {
         Debug.Log("Dash started!");
         isDashing = true;
-        isInvincible = true; // W³¹cz nieœmiertelnoœæ na czas dasha
+        isInvincible = true; // Wï¿½ï¿½cz nieï¿½miertelnoï¿½ï¿½ na czas dasha
 
         // Symulacja czasu trwania dasha (1 sekunda)
         yield return new WaitForSeconds(dashInvincibilityDuration);
 
         Debug.Log("Dash ended, invincibility turned off!");
-        isInvincible = false; // Wy³¹cz nieœmiertelnoœæ po dashu
+        isInvincible = false; // Wyï¿½ï¿½cz nieï¿½miertelnoï¿½ï¿½ po dashu
         isDashing = false;
     }
 
     private void Update()
     {
-        // Obs³uga wciœniêcia klawisza dash
+        // Obsï¿½uga wciï¿½niï¿½cia klawisza dash
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Dash();
