@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - WeakPoint
   - InvisibleWall
+  - Deathzone
   layers:
   - Default
   - TransparentFX
