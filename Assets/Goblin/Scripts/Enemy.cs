@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class Enemy : MonoBehaviour
     private int currentHealth;
     private Animator animator;
     private Rigidbody2D rb;
+    public Boolean isDead = false;
 
     [SerializeField] private float knockbackForce = 5f; // Si³a knockbacku
 
@@ -23,22 +25,20 @@ public class Enemy : MonoBehaviour
         currentHealth -= damage;
         animator.SetTrigger("takeDamage");
 
-        // Wywo³anie efektu knockback
         ApplyKnockback(damageSourcePosition);
 
         if (currentHealth <= 0)
         {
+            isDead = true;
             animator.SetBool("isDead", true);
         }
     }
 
     private void ApplyKnockback(Vector2 damageSourcePosition)
     {
-        // Oblicz kierunek knockbacku
         Vector2 knockbackDirection = (Vector2)transform.position - damageSourcePosition;
         knockbackDirection.Normalize();
 
-        // Dodaj si³ê do Rigidbody2D
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
     }
 

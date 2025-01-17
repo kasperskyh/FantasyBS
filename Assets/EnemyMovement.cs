@@ -11,17 +11,20 @@ public class EnemyMovement : MonoBehaviour
     Animator anim;
 
     private bool hasSeenPlayer = false; 
-    private bool isStopped = false; 
+    private bool isStopped = false;
+    private Enemy enemy;
+
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        enemy = GetComponent<Enemy>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player != null && !isStopped)
+        if (player != null && !isStopped && !enemy.isDead)
         {
             Vector3 playerPosition = player.transform.position;
             float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);

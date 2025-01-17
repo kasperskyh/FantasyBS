@@ -17,6 +17,8 @@ public class Health : MonoBehaviour
     [SerializeField] private int flashCount;
     private SpriteRenderer spriteRend;
     private bool isInvincible = false;
+    public bool isDead = false;
+    private Movement movement;
 
     [Header("Dash Settings")]
     [SerializeField] private float dashInvincibilityDuration = 1f; // Czas nie�miertelno�ci po dashu
@@ -30,16 +32,19 @@ public class Health : MonoBehaviour
         iFrameDeltaTime = 0.2f; // Czas przerwy mi�dzy migni�ciami
         animator = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
+        movement = GetComponent<Movement>();
     }
 
     public void takeDamage(double damage)
     {
         if (isInvincible) return; // Zignoruj obra�enia, je�li posta� jest nie�miertelna
+        if (!movement.isGrounded) return;
 
         currentHealth -= damage;
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
         {
+            isDead = true;
             animator.SetBool("isDead", true);
         }
         StartCoroutine(Invulnerability());

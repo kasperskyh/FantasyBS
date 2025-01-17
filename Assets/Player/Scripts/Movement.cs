@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private Animator anim;
     private Vector3 targetScale;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool doubleJump;
     private bool isOnWall;
 
@@ -23,11 +23,15 @@ public class Movement : MonoBehaviour
     [SerializeField] private float wallJumpForce = 0.2f;
     [SerializeField] private Vector2 wallJumpDirection = new Vector2(1, 1);
 
+    private Health health;
+
     void Start()
     {
         anim = GetComponent<Animator>();
         targetScale = transform.localScale; // Inicjalizacja docelowej skali
         rb = GetComponent<Rigidbody2D>();
+
+        health = GetComponent<Health>();
 
         GameObject[] invisibleWalls = GameObject.FindGameObjectsWithTag("InvisibleWall");
 
@@ -44,55 +48,58 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float move = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(move, 0, 0) * Time.deltaTime * speed;
-
-        if (move > 0)
+        if (!health.isDead)
         {
-            targetScale = new Vector3(4, 4, 4);
-        }
-        else if (move < 0)
-        {
-            targetScale = new Vector3(-4, 4, 4);
-        }
+            float move = Input.GetAxis("Horizontal");
+            transform.position += new Vector3(move, 0, 0) * Time.deltaTime * speed;
 
-        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * 50);
-
-        anim.SetBool("isRunning", move != 0);
-        anim.SetBool("isJumping", !isGrounded);
-
-        if (isGrounded && !Input.GetButton("Jump"))
-        {
-            doubleJump = false;
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isGrounded || doubleJump)
+            if (move > 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                doubleJump = !doubleJump;
+                targetScale = new Vector3(4, 4, 4);
             }
-            else if (isOnWall)
+            else if (move < 0)
             {
-                WallJump();
+                targetScale = new Vector3(-4, 4, 4);
             }
-        }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * 50);
 
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1)) && canDash)
-        {
-            StartCoroutine(Dash());
-            anim.SetTrigger("Dash");
-        }
+            anim.SetBool("isRunning", move != 0);
+            anim.SetBool("isJumping", !isGrounded);
 
-        if (isOnWall && !isGrounded)
-        {
-            WallRun();
+            if (isGrounded && !Input.GetButton("Jump"))
+            {
+                doubleJump = false;
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (isGrounded || doubleJump)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    doubleJump = !doubleJump;
+                }
+                else if (isOnWall)
+                {
+                    WallJump();
+                }
+            }
+
+            if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+            }
+
+            if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Joystick1Button1)) && canDash)
+            {
+                StartCoroutine(Dash());
+                anim.SetTrigger("Dash");
+            }
+
+            if (isOnWall && !isGrounded)
+            {
+                WallRun();
+            }
         }
     }
 
