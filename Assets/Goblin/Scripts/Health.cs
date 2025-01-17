@@ -56,7 +56,13 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
+       Respawn();
+    }
+
+    private void Respawn()
+    {
         transform.position=startPos;
+        currentHealth=100;
     }
 
     private IEnumerator Invulnerability()
