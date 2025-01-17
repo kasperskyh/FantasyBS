@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
 
+    [SerializeField] private float knockbackForce = 5f; // Si³a knockbacku
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -16,10 +18,13 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void takeDamage(int damage)
+    public void takeDamage(int damage, Vector2 damageSourcePosition)
     {
         currentHealth -= damage;
         animator.SetTrigger("takeDamage");
+
+        // Wywo³anie efektu knockback
+        ApplyKnockback(damageSourcePosition);
 
         if (currentHealth <= 0)
         {
@@ -27,6 +32,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void ApplyKnockback(Vector2 damageSourcePosition)
+    {
+        // Oblicz kierunek knockbacku
+        Vector2 knockbackDirection = (Vector2)transform.position - damageSourcePosition;
+        knockbackDirection.Normalize();
+
+        // Dodaj si³ê do Rigidbody2D
+        rb.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+    }
 
     void Die()
     {
