@@ -45,7 +45,6 @@ public class FlyingCreature : MonoBehaviour
                 playerHealth.takeDamage(damage);
             }
 
-            // Zniszcz stworka po kolizji z graczem
             DestroyCreature();
         }
     }
@@ -60,6 +59,15 @@ public class FlyingCreature : MonoBehaviour
     {
         // Przyjmujemy obra¿enia od ataku gracza i od razu niszczymy stworka
         DestroyCreature();
+
+        // Dodaj 50 punktów do wyniku gracza
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.score += 50;
+            Debug.Log("Gracz otrzyma³ 50 punktów. Nowy wynik: " + GameManager.Instance.score);
+        }
+
         Debug.Log("Stworek zosta³ trafiony przez gracza!");
     }
+
 }

@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         // Jeœli minê³a sekunda, odejmij 100 punktów
         if (timeSinceLastScoreDecrease >= 1f)
         {
-            score -= 100;
+            score -= 50;
             timeSinceLastScoreDecrease = 0f; // Zresetuj licznik czasu dla odejmowania punktów
         }
 
