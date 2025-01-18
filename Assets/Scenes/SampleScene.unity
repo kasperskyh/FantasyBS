@@ -363,11 +363,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Size.y
-      value: 3.8644147
+      value: 3.6902735
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Offset.y
-      value: 0.0066874623
+      value: -0.08038318
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
@@ -375,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 3.8439367
+      value: 3.4896078
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -685,11 +685,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Size.y
-      value: 3.8644147
+      value: 3.0542817
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Offset.y
-      value: 0.0066874623
+      value: -0.39837915
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
@@ -697,7 +697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 3.8439367
+      value: 2.2183836
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3535,7 +3535,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 738467975004433191, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 459.0862
+      value: 458.9187
       objectReference: {fileID: 0}
     - target: {fileID: 738467975004433191, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3579,10 +3579,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3815325194049133503, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Size.x
-      value: 13.476625
+      value: 13.409634
       objectReference: {fileID: 0}
     - target: {fileID: 3815325194049133503, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
       propertyPath: m_Size.y
+      value: 0.30130684
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
+      propertyPath: m_Size.x
+      value: 13.45706
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.038285017
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 13.476625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604824134856042959, guid: ef41d7bb61481b5459178545e75df0cc, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
       value: 0.30130684
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5399,7 +5415,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1895233459782958776, guid: 754fb30ce3e1e24499c400e3f5927776, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 414.64
+      value: 414.53
       objectReference: {fileID: 0}
     - target: {fileID: 1895233459782958776, guid: 754fb30ce3e1e24499c400e3f5927776, type: 3}
       propertyPath: m_LocalPosition.y
