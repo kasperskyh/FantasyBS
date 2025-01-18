@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float sightRange = 5f;
     [SerializeField] private float stopDuration = 0.5f; 
     Animator anim;
+    Health health;
 
     private bool hasSeenPlayer = false; 
     private bool isStopped = false;
@@ -19,6 +20,7 @@ public class EnemyMovement : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         enemy = GetComponent<Enemy>();
+        health = GetComponent <Health>();
     }
 
     // Update is called once per frame
@@ -54,9 +56,19 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject == player)
         {
             StartCoroutine(StopMovement());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (collision.gameObject == player)
+        {
+            health.takeDamage(25); 
         }
     }
 

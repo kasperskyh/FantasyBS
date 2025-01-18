@@ -17,9 +17,18 @@ public class Mushroom : MonoBehaviour
         // SprawdŸ, czy kolizja nast¹pi³a z graczem
         if (collision.CompareTag("Player"))
         {
+            // Wywo³aj animacjê "dead"
             anim.SetTrigger("dead");
+
+            // Dodaj 50 punktów do wyniku w GameManager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.score += 50;
+                Debug.Log("Score after collision: " + GameManager.Instance.score);
+            }
         }
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

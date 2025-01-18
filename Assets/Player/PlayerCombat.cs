@@ -31,12 +31,24 @@ public class PlayerCombat : MonoBehaviour
 
     public void AttackHit()
     {
+        // Wykrywamy wszystkich przeciwników w obrêbie zasiêgu ataku
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().takeDamage(damage, transform.position);
+            // Jeœli trafimy w stworka, wywo³ujemy funkcjê przyjmuj¹c¹ obra¿enia w stworku
+            FlyingCreature creature = enemy.GetComponent<FlyingCreature>();
+            if (creature != null)
+            {
+                creature.TakeDamageFromPlayer(damage); // Stworek pada od razu po trafieniu
+            }
+            else
+            {
+                // Zadajemy obra¿enia innym przeciwnikom
+                enemy.GetComponent<Enemy>().takeDamage(damage, transform.position);
+            }
         }
     }
+
 
     void OnDrawGizmosSelected()
     {
