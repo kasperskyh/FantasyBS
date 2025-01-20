@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class FlyingCreature : MonoBehaviour
 {
-    public float speed = 5f;           // Prêdkoœæ poruszania siê stworka
-    public float damage = 10f;         // Iloœæ obra¿eñ, które zadaje stworek
-    public float maxDistance = 15f;    // Maksymalna odleg³oœæ, któr¹ stworek pokona (po tej odleg³oœci stworek bêdzie kontynuowa³ lot)
-    public Transform player;           // Transform gracza
-    private bool isDead = false;       // Flaga sprawdzaj¹ca, czy stworek jest martwy
+    public float speed = 5f;           
+    public float damage = 10f;         
+    public float maxDistance = 15f;    
+    public Transform player;           
+    private bool isDead = false;       
 
     void Start()
     {
@@ -20,7 +20,6 @@ public class FlyingCreature : MonoBehaviour
     {
         if (!isDead)
         {
-            // Zawsze œcigaj gracza
             FlyTowardsPlayer();
 
         }
@@ -28,7 +27,6 @@ public class FlyingCreature : MonoBehaviour
 
     void FlyTowardsPlayer()
     {
-        // Obliczamy kierunek do gracza
         Vector3 direction = (player.position - transform.position).normalized;
         transform.position += direction * speed * Time.deltaTime;
     }
@@ -38,7 +36,6 @@ public class FlyingCreature : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // Zadaj obra¿enia graczowi
             Health playerHealth = collision.GetComponent<Health>();
             if (playerHealth != null)
             {
@@ -57,10 +54,8 @@ public class FlyingCreature : MonoBehaviour
 
     public void TakeDamageFromPlayer(int damage)
     {
-        // Przyjmujemy obra¿enia od ataku gracza i od razu niszczymy stworka
         DestroyCreature();
 
-        // Dodaj 50 punktów do wyniku gracza
         if (GameManager.Instance != null)
         {
             GameManager.Instance.score += 50;

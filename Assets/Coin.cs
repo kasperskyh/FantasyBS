@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private int scoreAmount = 100; // Liczba punktów przyznawana za monetê
+    [SerializeField] private int scoreAmount = 100; 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

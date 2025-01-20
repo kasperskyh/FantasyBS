@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;  // Dodajemy using dla UI (Text)
 
 public class Health : MonoBehaviour
@@ -21,59 +23,51 @@ public class Health : MonoBehaviour
     private Movement movement;
 
     [Header("Dash Settings")]
-    [SerializeField] private float dashInvincibilityDuration = 1f; // Czas nieśmiertelności po dashu
+    [SerializeField] private float dashInvincibilityDuration = 1f;
     private bool isDashing = false;
 
     [Header("UI Settings")]
-    [SerializeField] private Text healthText; // Dodaj referencję do UI Text, który będzie wyświetlał zdrowie
+    [SerializeField] private Text healthText; 
 
     void Start()
     {
         startPos = transform.position;
         currentHealth = maxHealth;
         iFrameDuration = 2f;
-        iFrameDeltaTime = 0.2f; // Czas przerwy między mignięciami
+        iFrameDeltaTime = 0.2f; 
         animator = GetComponent<Animator>();
         spriteRend = GetComponent<SpriteRenderer>();
         movement = GetComponent<Movement>();
 
-        // Zaktualizuj tekst na początku gry
         UpdateHealthText();
     }
 
     public void takeDamage(double damage)
     {
-        if (isInvincible) return; // Zignoruj obrażenia, jeśli postać jest nieśmiertelna
-        if (!movement.isGrounded) return; // Zignoruj obrażenia, jeśli postać nie dotyka ziemi
+        if (isInvincible) return; 
 
-        // Zmniejsz zdrowie
         currentHealth -= damage;
 
-        // Dodaj animację "Hurt"
         animator.SetTrigger("Hurt");
 
-        // Sprawdź, czy zdrowie spadło do zera
         if (currentHealth <= 0)
         {
             isDead = true;
             animator.SetBool("isDead", true);
         }
 
-        // Odejmij 25 punktów od wyniku za otrzymanie obrażeń
         if (GameManager.Instance != null)
         {
             GameManager.Instance.score -= 25;
             if (GameManager.Instance.score < 0)
             {
-                GameManager.Instance.score = 0; // Zapewnia, że wynik nie spadnie poniżej 0
+                GameManager.Instance.score = 0; 
             }
             Debug.Log("Score after taking damage: " + GameManager.Instance.score);
         }
 
-        // Zaktualizuj tekst po otrzymaniu obrażeń
         UpdateHealthText();
 
-        // Uruchom korutynę dla nieśmiertelności
         StartCoroutine(Invulnerability());
     }
 
@@ -86,7 +80,6 @@ public class Health : MonoBehaviour
         }
         Debug.Log("Player healed! Current health: " + currentHealth);
 
-        // Zaktualizuj tekst po leczeniu
         UpdateHealthText();
     }
 
@@ -97,12 +90,10 @@ public class Health : MonoBehaviour
 
     public void Respawn()
     {
-        // Odejmij punkty od wyniku w GameManager
         if (GameManager.Instance != null)
         {
             GameManager.Instance.score -= 100;
 
-            // Upewnij się, że wynik nie spada poniżej zera
             if (GameManager.Instance.score < 0)
             {
                 GameManager.Instance.score = 0;
@@ -110,23 +101,16 @@ public class Health : MonoBehaviour
 
             Debug.Log("Score after respawn: " + GameManager.Instance.score);
         }
-
-        // Resetuj pozycję gracza
         transform.position = startPos;
-
-        // Przywróć zdrowie gracza
         currentHealth = 100;
-
-        // Ustaw animatora, aby przestał pokazywać śmierć
         animator.SetBool("isDead", false);
-
-        // Zaktualizuj tekst po respawnie
         UpdateHealthText();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void UpdateHealthText()
     {
-        // Sprawdź, czy healthText jest przypisany, i zaktualizuj tekst
         if (healthText != null)
         {
             healthText.text = "HP: " + currentHealth + " / " + maxHealth;
@@ -140,11 +124,9 @@ public class Health : MonoBehaviour
 
         for (int i = 0; i < flashCount; i++)
         {
-            // Wyłącz sprite, aby postać zniknęła
             spriteRend.enabled = false;
             yield return new WaitForSeconds(iFrameDeltaTime / 2);
 
-            // Włącz sprite, aby postać się pojawiła
             spriteRend.enabled = true;
             yield return new WaitForSeconds(iFrameDeltaTime / 2);
         }
@@ -164,19 +146,17 @@ public class Health : MonoBehaviour
     {
         Debug.Log("Dash started!");
         isDashing = true;
-        isInvincible = true; // Włącz nieśmiertelność na czas dasha
+        isInvincible = true; 
 
-        // Symulacja czasu trwania dasha (1 sekunda)
         yield return new WaitForSeconds(dashInvincibilityDuration);
 
         Debug.Log("Dash ended, invincibility turned off!");
-        isInvincible = false; // Wyłącz nieśmiertelność po dashu
+        isInvincible = false; 
         isDashing = false;
     }
 
     private void Update()
     {
-        // Obsługa wciśnięcia klawisza dash
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Dash();

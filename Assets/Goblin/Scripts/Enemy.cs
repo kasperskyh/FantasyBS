@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     public Boolean isDead = false;
 
-    [SerializeField] private float knockbackForce = 5f; // Si³a knockbacku
+    [SerializeField] private float knockbackForce = 5f; 
 
     void Start()
     {

@@ -5,12 +5,12 @@ public class MainMenu : MonoBehaviour
 {
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("SampleScene"); // Nazwa twojej sceny do grania
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void QuitGame()
     {
         Application.Quit();
-        Debug.Log("Gra zosta³a zamkniêta."); // Debug dzia³a tylko w edytorze
+        Debug.Log("Gra zosta³a zamkniêta."); 
     }
 }

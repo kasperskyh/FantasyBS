@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MushroomMovement : MonoBehaviour
 {
-    public float speed = 2f; // Prêdkoœæ poruszania siê
-    private int direction = 1; // Kierunek: 1 = prawo, -1 = lewo
+    public float speed = 2f; 
+    private int direction = 1; 
     private Animator anim;
 
     private Rigidbody2D rb;
@@ -16,7 +16,6 @@ public class MushroomMovement : MonoBehaviour
 
     private void Update()
     {
-        // Poruszaj grzybka w lewo lub prawo
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
         anim.SetBool("isWalking", true);
     }
@@ -26,14 +25,13 @@ public class MushroomMovement : MonoBehaviour
         // SprawdŸ, czy grzybek zderza siê z niewidzialn¹ œcian¹
         if (collision.gameObject.CompareTag("InvisibleWall"))
         {
-            direction *= -1;  // Zmieñ kierunek
-            FlipSprite();     // Obróæ sprite
+            direction *= -1;  
+            FlipSprite();     
         }
     }
 
     private void FlipSprite()
     {
-        // Obróæ sprite grzybka w odpowiednim kierunku
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
