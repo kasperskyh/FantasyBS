@@ -64,6 +64,11 @@ public class Health : MonoBehaviour
             Debug.Log("Score after taking damage: " + GameManager.Instance.score);
         }
 
+        if(isDead)
+        {
+            Respawn();
+        }
+
         UpdateHealthText();
 
         StartCoroutine(Invulnerability());
