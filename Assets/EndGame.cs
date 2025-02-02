@@ -1,29 +1,22 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Dodaj tê liniê, aby móc u¿ywaæ SceneManager
+using UnityEngine.SceneManagement;
 
 public class EndGameTrigger : MonoBehaviour
 {
+    // Funkcja wywo³ywana przy wejœciu w trigger
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // SprawdŸ, czy gracz wchodzi w kolizjê z obiektem o tagu "endGAME"
         if (collision.CompareTag("Player"))
         {
-            // Zakoñcz grê lub za³aduj scenê koñcow¹
-            EndGame();
+            EndGame(); // Wywo³anie funkcji koñcz¹cej grê
         }
     }
 
+    // Funkcja s³u¿¹ca do zakoñczenia gry
     private void EndGame()
     {
-        // Mo¿liwoœæ zakoñczenia gry (po zakoñczeniu gry mo¿na dodaæ ekran koñcowy lub restart)
-        Debug.Log("Gra zakoñczona!"); // Mo¿esz dodaæ w³asny komunikat w konsoli
-        // Jeœli chcesz zakoñczyæ grê na sta³e (np. na PC), u¿yj:
-        // Application.Quit();
+        Debug.Log("Gra zakoñczona!"); // Wypisanie komunikatu do konsoli
 
-        // Jeœli chcesz za³adowaæ scenê koñcow¹, np. "GameOver", u¿yj:
-        SceneManager.LoadScene("GameOver"); // Zamieñ "GameOverScene" na nazwê swojej sceny koñcowej
-
-        // Jeœli chcesz zakoñczyæ grê na platformie mobilnej, u¿yj:
-        // Application.Quit();
+        SceneManager.LoadScene("GameOver"); // Za³adowanie sceny GameOver
     }
 }

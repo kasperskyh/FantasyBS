@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private int speed = 10;
-    [SerializeField] private float jumpForce = 10;
-    [SerializeField] private TrailRenderer tr;
-    [SerializeField] private Rigidbody2D rb;
-    private Animator anim;
-    private Vector3 targetScale;
-    public bool isGrounded;
-    private bool doubleJump;
-    private bool isOnWall;
+    [SerializeField] private int speed = 10; // Prêdkoœæ poruszania siê gracza
+    [SerializeField] private float jumpForce = 10; // Si³a skoku gracza
+    [SerializeField] private TrailRenderer tr; // TrailRenderer do efektu dasha
+    [SerializeField] private Rigidbody2D rb; // Rigidbody2D do zarz¹dzania fizyk¹ gracza
+    private Animator anim; // Animator do zarz¹dzania animacjami gracza
+    private Vector3 targetScale; // Docelowa skala gracza
+    public bool isGrounded; // Flaga wskazuj¹ca, czy gracz jest na ziemi
+    private bool doubleJump; // Flaga wskazuj¹ca, czy gracz mo¿e wykonaæ podwójny skok
+    private bool isOnWall; // Flaga wskazuj¹ca, czy gracz jest na œcianie
 
-    private bool canDash = true;
-    private bool isDashing;
-    [SerializeField] private float dashingForce = 3f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    private bool canDash = true; // Flaga wskazuj¹ca, czy gracz mo¿e wykonaæ dash
+    private bool isDashing; // Flaga wskazuj¹ca, czy gracz wykonuje dash
+    [SerializeField] private float dashingForce = 3f; // Si³a dasha
+    private float dashingTime = 0.2f; // Czas trwania dasha
+    private float dashingCooldown = 1f; // Czas odnowienia dasha
 
-    [SerializeField] private float wallJumpForce = 0.2f;
-    [SerializeField] private Vector2 wallJumpDirection = new Vector2(1, 1);
+    [SerializeField] private float wallJumpForce = 0.2f; // Si³a skoku od œciany
+    [SerializeField] private Vector2 wallJumpDirection = new Vector2(1, 1); // Kierunek skoku od œciany
 
-    private Health health;
+    private Health health; // Referencja do skryptu Health
 
+    // Funkcja s³u¿¹ca do inicjalizacji komponentów
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>(); // Inicjalizacja komponentu Animator
         targetScale = transform.localScale; // Inicjalizacja docelowej skali
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); // Inicjalizacja komponentu Rigidbody2D
 
-        health = GetComponent<Health>();
+        health = GetComponent<Health>(); // Inicjalizacja komponentu Health
 
         GameObject[] invisibleWalls = GameObject.FindGameObjectsWithTag("InvisibleWall");
 
@@ -103,6 +104,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // Funkcja s³u¿¹ca do obs³ugi zdarzenia kolizji
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -117,6 +119,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // Funkcja s³u¿¹ca do obs³ugi zdarzenia opuszczenia kolizji
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -130,6 +133,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // Funkcja s³u¿¹ca do wykonania skoku od œciany
     private void WallJump()
     {
         Vector2 jumpDirection = new Vector2(wallJumpDirection.x * -transform.localScale.x, wallJumpDirection.y);
@@ -137,12 +141,14 @@ public class Movement : MonoBehaviour
         isOnWall = false;
     }
 
+    // Funkcja s³u¿¹ca do biegu po œcianie
     private void WallRun()
     {
         float move = Input.GetAxis("Vertical");
         rb.velocity = new Vector2(rb.velocity.x, move * speed);
     }
 
+    // Funkcja s³u¿¹ca do wykonania dasha
     private IEnumerator Dash()
     {
         canDash = false;
@@ -158,5 +164,4 @@ public class Movement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
-
 }

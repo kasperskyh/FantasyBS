@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2226571752557869124, guid: 6262f93b4b610c446a3be02ed76ae913, type: 3}
-  spawnInterval: 5
+  spawnInterval: 10
   radius: 3
 --- !u!212 &171159296
 SpriteRenderer:
@@ -3917,7 +3917,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14115,7 +14115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2226571752557869124, guid: 6262f93b4b610c446a3be02ed76ae913, type: 3}
-  spawnInterval: 5
+  spawnInterval: 10
   radius: 3
 --- !u!212 &2087301654
 SpriteRenderer:

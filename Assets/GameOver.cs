@@ -4,36 +4,35 @@ using UnityEngine.UI;
 
 public class GameOverManager : MonoBehaviour
 {
-    public Text scoreText; // Tekst do wyœwietlania wyniku
-    public Text timeText; // Tekst do wyœwietlania czasu
+    public Text scoreText; // Tekst wyœwietlaj¹cy wynik gracza
+    public Text timeText; // Tekst wyœwietlaj¹cy czas gry
     public Button exitButton; // Przycisk do wyjœcia z gry
 
+    // Funkcja s³u¿¹ca do inicjalizacji komponentów
     void Start()
     {
-        // Wyœwietl wynik i czas po za³adowaniu sceny
         if (GameManager.Instance != null)
         {
+            // Ustawienie tekstu wyniku i czasu na podstawie danych z GameManager
             scoreText.text = "Score: " + GameManager.Instance.score.ToString();
             timeText.text = "Time: " + Mathf.FloorToInt(GameManager.Instance.elapsedTime).ToString() + "s";
         }
-
-        // Ustaw funkcjê wyjœcia na przycisku
-        exitButton.onClick.AddListener(ExitGame);
+        exitButton.onClick.AddListener(ExitGame); // Dodanie nas³uchiwania na klikniêcie przycisku wyjœcia
     }
 
-    // Funkcja, która koñczy aplikacjê
+    // Funkcja s³u¿¹ca do wyjœcia z gry
     private void ExitGame()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // W przypadku pracy w edytorze Unity
+        UnityEditor.EditorApplication.isPlaying = false; // Zatrzymanie gry w edytorze Unity
 #else
-        Application.Quit(); // Zamyka aplikacjê w wersji zbudowanej
+        Application.Quit(); // Zakoñczenie aplikacji w buildzie
 #endif
     }
 
-    // Mo¿esz równie¿ dodaæ funkcjê restartu, jeœli chcesz umo¿liwiæ powrót do gry:
+    // Funkcja s³u¿¹ca do restartu gry
     public void RestartGame()
     {
-        SceneManager.LoadScene("GameScene"); // Przyk³adowa scena gry
+        SceneManager.LoadScene("GameScene"); // Za³adowanie sceny gry od nowa
     }
 }
