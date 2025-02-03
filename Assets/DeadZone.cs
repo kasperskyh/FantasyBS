@@ -5,16 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class DeadZone : MonoBehaviour
 {
-    Health health;
+    Health health; // Referencja do komponentu Health gracza
+
+    // Funkcja wywo³ywana przy starcie
     void Start()
     {
-        health = GameObject.FindObjectOfType<Health>();
+        health = GameObject.FindObjectOfType<Health>(); // Znalezienie komponentu Health w scenie
     }
+
+    // Funkcja wywo³ywana przy wejœciu w trigger
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            health.Respawn();
+            health.Respawn(); // Wywo³anie funkcji respawnu gracza
         }
     }
 }

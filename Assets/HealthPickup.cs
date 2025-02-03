@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class HealthPickup : MonoBehaviour
 {
-    [SerializeField] private int healAmount = 20; 
+    [SerializeField] private int healAmount = 20; // Iloœæ zdrowia przywracanego po zebraniu przedmiotu
 
-    private void OnTriggerEnter2D(Collider2D collision) 
+    // Funkcja wywo³ywana przy wejœciu w trigger
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Health playerHealth = collision.GetComponent<Health>();
+        Health playerHealth = collision.GetComponent<Health>(); // Pobranie komponentu zdrowia gracza
         if (playerHealth != null)
         {
-            playerHealth.Heal(healAmount);
+            playerHealth.Heal(healAmount); // Leczenie gracza
 
-            Destroy(gameObject);
+            Destroy(gameObject); // Zniszczenie obiektu przedmiotu
         }
     }
 }
